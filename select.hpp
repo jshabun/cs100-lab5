@@ -38,6 +38,7 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
+
 class Select_And : public Select {
    protected:
 	Select* and1;
@@ -63,7 +64,44 @@ class Select_And : public Select {
 	}
 };
 
+class Select_Contains : public Select_Column
+{
+    protected:
+	std::string str;
+    public:
+	Select_Contains(const Spreadsheet* sheet, const std::string& colNam, const std::string& sstr) : Select_Column(sheet, colNam) {
+	str = sstr;
+}
+	virtual bool select(const std::string& s) const {
+	if(s.find(str) != std::string::npos)
+	{
+		return true;
+	}
+	return false;
+}
+};
 
 
+class Select_Not: public Select {
+    protected:
+	Select* con;
+    public:
+	Select_Not(Select* var) {
+		con = var;
+	}
+	
+	virtual bool select(const Spreadsheet* sheet, int row) const {
+		if(con->select(sheet,row) == true) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	virtual ~Select_Not() {
+		delete con;
+	}
+};
 
 #endif //__SELECT_HPP__
