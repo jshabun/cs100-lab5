@@ -38,4 +38,29 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
+class Select_Or : public Select {
+    protected:
+	Select* or1;
+	Select* or2;
+
+    public:
+	Select_Or(Select* var1, Select* var2) {
+		or1 = var1;
+		or2 = var2;
+	}
+
+	bool select(const Spreadsheet* sheet, int row) const {
+		if (or1->select(sheet, row) == true || or2->select(sheet, row) == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	virtual ~Select_Or() {
+		delete or1;
+		delete or2;
+	}
+};
+
 #endif //__SELECT_HPP__
