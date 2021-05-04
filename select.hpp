@@ -43,16 +43,16 @@ class Select_Contains : public Select_Column
     protected:
 	std::string str;
     public:
-	Select_Contains(const Spreadsheet* sheet, const std::string& colNam, const std::string& sstr) : Select_Column(sheet, columnName) {
-	substring = sstr;
+	Select_Contains(const Spreadsheet* sheet, const std::string& colNam, const std::string& sstr) : Select_Column(sheet, colNam) {
+	str = sstr;
 }
 	virtual bool select(const std::string& s) const {
-	if(s.find(substring) != std::string::npos)
+	if(s.find(str) != std::string::npos)
 	{
 		return true;
 	}
 	return false;
 }
-
+};
 
 #endif //__SELECT_HPP__
