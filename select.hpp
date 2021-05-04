@@ -38,4 +38,32 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
+class Select_And : public Select {
+   protected:
+	Select* and1;
+	Select* and2;
+
+    public: 
+	Select_And(Select* var1, Select* var2) {
+		and1 = var1;
+		and2 = var2;
+	}
+
+	bool select(const Spreadsheet* sheet, int row) const {
+		if (and1->select(sheet, row) == true && and2->select(sheet, row) == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	virtual ~Select_And() {
+		delete and1;
+		delete and2;
+	}
+};
+
+
+
+
 #endif //__SELECT_HPP__
