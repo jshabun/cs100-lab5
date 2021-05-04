@@ -38,4 +38,42 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
+class Select_Contains : public Select_Column
+{
+    protected:
+	std::string str;
+    public:
+	Select_Contains(const Spreadsheet* sheet, const std::string& colNam, const std::string& sstr) : Select_Column(sheet, columnName) {
+	substring = sstr;
+}
+	virtual bool select(const std::string& s) const {
+	if(s.find(substring) != std::string::npos)
+	{
+		return true;
+	}
+	return false;
+}
+
+class Select_Not: public Select {
+    protected:
+	Select* con;
+    public:
+	Select_Not(Select* var) {
+		contains = var;
+	}
+	
+	virtual bool select(const Spreadsheet* sheet, int row) const {
+		if(contains->select(sheet,row) == true) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	virtual ~Select_Not() {
+		delete contains;
+	}
+}
+
 #endif //__SELECT_HPP__
