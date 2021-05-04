@@ -43,11 +43,11 @@ class Select_Not: public Select {
 	Select* con;
     public:
 	Select_Not(Select* var) {
-		contains = var;
+		con = var;
 	}
 	
 	virtual bool select(const Spreadsheet* sheet, int row) const {
-		if(contains->select(sheet,row) == true) {
+		if(con->select(sheet,row) == true) {
 			return false;
 		}
 		else {
@@ -56,8 +56,8 @@ class Select_Not: public Select {
 	}
 	
 	virtual ~Select_Not() {
-		delete contains;
+		delete con;
 	}
-}
+};
 
 #endif //__SELECT_HPP__
