@@ -38,4 +38,26 @@ public:
     virtual bool select(const std::string& s) const = 0;
 };
 
+class Select_Not: public Select {
+    protected:
+	Select* con;
+    public:
+	Select_Not(Select* var) {
+		contains = var;
+	}
+	
+	virtual bool select(const Spreadsheet* sheet, int row) const {
+		if(contains->select(sheet,row) == true) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	virtual ~Select_Not() {
+		delete contains;
+	}
+}
+
 #endif //__SELECT_HPP__
