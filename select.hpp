@@ -58,6 +58,5 @@ class Select_Not: public Select {
 	virtual ~Select_Not() {
 		delete con;
 	}
-};
 
 #endif //__SELECT_HPP__
