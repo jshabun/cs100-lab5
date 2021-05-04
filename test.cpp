@@ -18,7 +18,7 @@ TEST(Select_And, basicTest){
         sheet.add_row({"flippity"});
         sheet.add_row({"dippity"});
         sheet.add_row({"hippity"});
-        sheet.add_row({"rippity"});
+        sheet.add_row({"hoppity"});
 
         sheet.set_selection(new Select_And(new Select_Contains(&sheet,"slimmy","ipp"),new Select_Contains(&sheet,"slimmy","ity")));
         sheet.print_selection(ss);
