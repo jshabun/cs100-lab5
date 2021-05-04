@@ -51,7 +51,7 @@ class Select_Or : public Select {
 
 	bool select(const Spreadsheet* sheet, int row) const {
 		if (or1->select(sheet, row) == true || or2->select(sheet, row) == true) {
-			return true;
+      	return true;
 		} else {
 			return false;
 		}
@@ -60,6 +60,69 @@ class Select_Or : public Select {
 	virtual ~Select_Or() {
 		delete or1;
 		delete or2;
+  }
+};
+
+
+class Select_And : public Select {
+   protected:
+	Select* and1;
+	Select* and2;
+
+    public: 
+	Select_And(Select* var1, Select* var2) {
+		and1 = var1;
+		and2 = var2;
+	}
+
+	bool select(const Spreadsheet* sheet, int row) const {
+		if (and1->select(sheet, row) == true && and2->select(sheet, row) == true) {
+		
+
+	
+	virtual ~Select_And() {
+		delete and1;
+		delete and2;
+	}
+};
+
+class Select_Contains : public Select_Column
+{
+    protected:
+	std::string str;
+    public:
+	Select_Contains(const Spreadsheet* sheet, const std::string& colNam, const std::string& sstr) : Select_Column(sheet, colNam) {
+	str = sstr;
+}
+	virtual bool select(const std::string& s) const {
+	if(s.find(str) != std::string::npos)
+	{
+		return true;
+	}
+	return false;
+}
+};
+
+
+class Select_Not: public Select {
+    protected:
+	Select* con;
+    public:
+	Select_Not(Select* var) {
+		con = var;
+	}
+	
+	virtual bool select(const Spreadsheet* sheet, int row) const {
+		if(con->select(sheet,row) == true) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	virtual ~Select_Not() {
+		delete con;
 	}
 };
 
